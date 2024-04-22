@@ -1,0 +1,6 @@
+@ThomasGregTest.API_HostAddress = http://localhost:5184
+
+GET {{ThomasGregTest.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

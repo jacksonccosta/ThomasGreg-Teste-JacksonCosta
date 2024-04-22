@@ -1,0 +1,305 @@
+﻿<div>
+    <hr />
+    <h3>Logradouros</h3>
+</div>
+<div>
+
+    <div id="messageModal" class="modal fade">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="uppercase font-bold">Atenção <span id="fecharModal" onclick="fecharModal('#messageModal')" class="close">&times;</span></h1>
+                </div>
+                <main class="text-center p-4">
+                    <p class="font-bold" id="lblMessage"></p>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <div id="delModal" class="modal fade">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="uppercase font-bold">Atenção <span id="fecharModal" onclick="fecharModal('#delModal')" class="close">&times;</span></h1>
+                </div>
+                <main class="text-center p-4">
+                    <p class="font-bold">Deseja realmente excluir este registro?</p>
+                    <span id="lblRegistro"></span>
+                </main>
+                <div class="modal-footer">
+                    <button onclick="handleDelSim()" class="btn btn-primary" type="button">Sim</button>
+                    <button onclick="handleDelNao()" class="btn btn-danger" type="button">Não</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="formModal" class="modal fade">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="uppercase">Logradouro <span id="fecharModal" onclick="fecharModal('#formModal')" class="close">&times;</span></h1>
+                </div>
+                <main class="modal-main overflow-auto p-4">
+                    <form id="logradouroForm">
+                        <div class="mb-3">
+                            <label for="nomeRua" class="form-label">Nome da Rua:</label>
+                            <input type="text" class="form-control" id="nomeRua" name="NomeRua" placeholder="Digite o nome da rua" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="mb-3 col-3">
+                                <label for="numero" class="form-label">Número:</label>
+                                <input type="text" class="form-control" id="numero" name="Numero" placeholder="Digite o número" required>
+                            </div>
+
+                            <div class="mb-3 col-9">
+                                <label for="bairro" class="form-label">Bairro:</label>
+                                <input type="text" class="form-control" id="bairro" name="Bairro" placeholder="Digite o bairro" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-12">
+                            <label for="cidade" class="form-label">Cidade:</label>
+                            <input type="text" class="form-control" id="cidade" name="Cidade" placeholder="Digite a cidade" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="mb-3 col-6">
+                                <label for="estado" class="form-label">Estado:</label>
+                                <select class="form-select" id="estado" name="Estado" required>
+                                    <option value="" selected disabled>Selecione o Estado</option>
+                                    <option value="AC">AC</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AP">AP</option>
+                                    <option value="AM">AM</option>
+                                    <option value="BA">BA</option>
+                                    <option value="CE">CE</option>
+                                    <option value="DF">DF</option>
+                                    <option value="ES">ES</option>
+                                    <option value="GO">GO</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MT">MT</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MG">MG</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PB">PB</option>
+                                    <option value="PR">PR</option>
+                                    <option value="PE">PE</option>
+                                    <option value="PI">PI</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="RN">RN</option>
+                                    <option value="RS">RS</option>
+                                    <option value="RO">RO</option>
+                                    <option value="RR">RR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SP">SP</option>
+                                    <option value="SE">SE</option>
+                                    <option value="TO">TO</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3 col-6">
+                                <label for="cep" class="form-label">CEP:</label>
+                                <input type="text" class="form-control" id="cep" name="Cep" placeholder="Digite o CEP" required>
+                            </div>
+                        </div>
+                    </form>
+
+
+                </main>
+                <div>
+                    <div id="error" class="alert alert-danger mb-2 d-none" role="alert">
+                        <span class="block sm:inline"></span>
+                    </div>
+                    <div id="success" class="alert alert-success mb-2 d-none" role="alert">
+                        <span class="block sm:inline"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="salvar()" class="btn btn-primary" type="button">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex w-full flex-col">
+        <div class="flex w-full justify-end mt-3 pb-3">
+            <button onclick="novoCadastro()" class="btn btn-primary">
+                Novo Cadastro
+            </button>
+        </div>
+        <table class="table table-bordered" id="lista">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-bottom font-bold">Nome da Rua</th>
+                    <th class="py-2 px-4 border-bottom font-bold">Bairro</th>
+                    <th class="py-2 px-4 border-bottom font-bold">Cidade / UF</th>
+                    <th class="py-2 px-4 border-bottom font-bold">CEP</th>
+                    <th class="py-2 px-4 border-bottom font-bold">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Seu conteúdo da tabela aqui -->
+            </tbody>
+        </table>
+    </div>
+    <script src="~/js/services/logradouro.js"></script>
+    <script>
+        let lista = [];
+        let dataForm = {};
+
+        const limparForm = () => {
+            dataForm = {};
+            const formulario = $('#logradouroForm');
+            formulario.trigger('reset');
+            $('#error').addClass('d-none');
+            $('#success').addClass('d-none');
+        }
+
+        const carregarForm = (id) => {
+            dataForm = lista.find(x => x.id === id);
+            if (dataForm) {
+                $('#formModal').modal('show');
+                $('#nomeRua').val(dataForm.nomeRua);
+                $('#numero').val(dataForm.numero);
+                $('#bairro').val(dataForm.bairro);
+                $('#cidade').val(dataForm.cidade);
+                $('#estado').val(dataForm.estado);
+                $('#cep').val(dataForm.cep);
+            }
+        }
+
+        const novoCadastro = () => {
+            limparForm();
+            $('#formModal').modal('show');
+        }
+
+        const carregaLista = async () => {
+            $('#lista tbody').html('<tr><td colspan="6" class="py-2 px-4 border-bottom col-span-full w-full text-center"><img src="/images/loading-icon.gif" alt="Loading" class="mx-auto my-auto" /></td></tr>');
+
+            try {
+                const resposta = await Logradouro.getListarAxios('@ViewData["ClienteId"]');
+
+                lista = resposta.data.data;
+                $('#lista tbody').html('');
+
+                if (resposta.data.success && lista.length === 0)
+                    $('#lista tbody').html('<tr><td colspan="7" class="py-2 px-4 border-bottom col-span-full w-full text-center">Nenhum registro cadastrado.</td></tr>');
+                if (!resposta.data.success)
+                    $('#lista tbody').html('<tr><td colspan="7" class="py-2 px-4 border-bottom col-span-full w-full text-center">Falha ao listar os registros.</td></tr>');
+             
+                const buttonEdit = (id) => {
+                    return `<button title='Visualizar' onclick='carregarForm(${id})'><svg height="32px" id="Layer_1" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M344.5,298c15-23.6,23.8-51.6,23.8-81.7c0-84.1-68.1-152.3-152.1-152.3C132.1,64,64,132.2,64,216.3  c0,84.1,68.1,152.3,152.1,152.3c30.5,0,58.9-9,82.7-24.4l6.9-4.8L414.3,448l33.7-34.3L339.5,305.1L344.5,298z M301.4,131.2  c22.7,22.7,35.2,52.9,35.2,85c0,32.1-12.5,62.3-35.2,85c-22.7,22.7-52.9,35.2-85,35.2c-32.1,0-62.3-12.5-85-35.2  c-22.7-22.7-35.2-52.9-35.2-85c0-32.1,12.5-62.3,35.2-85c22.7-22.7,52.9-35.2,85-35.2C248.5,96,278.7,108.5,301.4,131.2z"/></svg></button>`;
+                }
+                const buttonDelete = (id) => {
+                    return `<button title='Excluir' onclick='excluir(${id})'><svg height="32px" width="32px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title/><path d="M21,6a1,1,0,0,1-1,1H4A1,1,0,0,1,4,5H9V4.5A1.5,1.5,0,0,1,10.5,3h3A1.5,1.5,0,0,1,15,4.5V5h5A1,1,0,0,1,21,6Z" fill="#464646"/><path d="M5.5,9v9.5A2.5,2.5,0,0,0,8,21h8a2.5,2.5,0,0,0,2.5-2.5V9ZM11,17a1,1,0,0,1-2,0V13a1,1,0,0,1,2,0Zm4,0a1,1,0,0,1-2,0V13a1,1,0,0,1,2,0Z" fill="#464646"/></svg></button>`;
+                }
+                lista.forEach(m => {
+                    $('#lista tbody').append(`<tr>
+                                                    <td class="py-2 px-4 border-bottom">${m.nomeRua}, ${m.numero}</td>
+                                                    <td class="py-2 px-4 border-bottom">${m.bairro}</td>
+                                                    <td class="py-2 px-4 border-bottom">${m.cidade}/${m.estado}</td>
+                                                    <td class="py-2 px-4 border-bottom">${m.cep}</td>
+                                                    <td class="d-flex py-2 px-4 border-bottom justify-content-between">${buttonEdit(m.id)}${buttonDelete(m.id)}</td>
+                                                </tr>`);
+                });
+
+            } catch (error) {
+                console.error('Erro ao carregar a lista:', error);
+                $('#lista tbody').html('<tr><td colspan="6" class="py-2 px-4 border-bottom col-span-full w-full text-center">Erro ao carregar a lista.</td></tr>');
+            }
+        }
+
+        const salvar = async () => {
+            const nomeRua = $('#nomeRua').val();
+            const bairro = $('#bairro').val();
+            const estado = $('#estado').val();
+            const numero = $('#numero').val();
+            const cidade = $('#cidade').val();
+            const cep = $('#cep').val();
+
+            try {
+                let resposta = null;
+
+                if (dataForm.id && dataForm.id > 0) {
+                    resposta = await Logradouro.putAxios({
+                        "id": dataForm.id,
+                        "clienteId": '@ViewData["ClienteId"]',
+                        "nomeRua": nomeRua,
+                        "bairro": bairro,
+                        "estado": estado,
+                        "numero": numero,
+                        "cidade": cidade,
+                        "cep": cep
+                    });
+                } else {
+                    resposta = await Logradouro.postAxios({
+                        "clienteId": '@ViewData["ClienteId"]',
+                        "nomeRua": nomeRua,
+                        "bairro": bairro,
+                        "estado": estado,
+                        "numero": numero,
+                        "cidade": cidade,
+                        "cep": cep
+                    });
+                }
+
+                if (!resposta.data.success) {
+                    $('#error').removeClass('d-none');
+                    $('#error span').html(resposta.data.data);
+                    setTimeout(() => $('#error').addClass('d-none'), 5000);
+                } else {
+                    $('#success').removeClass('d-none');
+                    $('#success span').html(resposta.data.data);
+                    setTimeout(() => { $('#success').addClass('d-none'); $('#formModal').modal('hide') }, 5000);
+                    carregaLista();
+                }
+            } catch (error) {
+                console.error('Erro ao salvar:', error);
+                $('#error').removeClass('d-none');
+                $('#error span').html('Erro ao salvar. Por favor, tente novamente.');
+                setTimeout(() => $('#error').addClass('d-none'), 5000);
+            }
+        }
+
+        const excluir = (id) => {
+            dataForm = lista.find(x => x.id === id);
+            $('#delModal #lblRegistro').html(dataForm.nomeRua);
+            $('#delModal').modal('show');
+        }
+
+        const handleDelSim = async () => {
+            $('#delModal').modal('hide');
+
+            try {
+                const resposta = await Logradouro.deleteAxios('@ViewData["ClienteId"]', dataForm.id);
+                $('#messageModal').modal('show');
+                $('#messageModal #lblMessage').html(resposta.data.data);
+                setTimeout(() => $('#messageModal').modal('hide'), 5000);
+                dataForm = {};
+                carregaLista();
+            } catch (error) {
+                console.error('Erro ao excluir:', error);
+                $('#messageModal').modal('show');
+                $('#messageModal #lblMessage').html('Erro ao excluir. Por favor, tente novamente.');
+                setTimeout(() => $('#messageModal').modal('hide'), 5000);
+            }
+        }
+
+        const handleDelNao = () => {
+            dataForm = {};
+            $('#delModal').modal('hide');
+        }
+
+        function fecharModal(modal) {
+            $(modal).modal('hide');
+        }
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            carregaLista();
+        });
+    </script>
+
+</div>

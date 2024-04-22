@@ -1,0 +1,82 @@
+﻿@model UsuarioCadastroModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ThomasGregTest.Web</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ThomasGregTest.Web.styles.css" asp-append-version="true" />
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <form method="post">
+        <h2>Cadastro de Usuário</h2>
+        <div class="form-group mt-3">
+            <label asp-for="Nome"></label>
+            <input asp-for="Nome" class="form-control" />
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="Senha"></label>
+            <input asp-for="Senha" class="form-control" type="password" />
+            <span asp-validation-for="Senha" class="text-danger"></span>
+        </div>
+        @if (ViewBag.Erro != null && !(bool)ViewBag.Erro.Success)
+        {
+            <div id="error" class="alert alert-danger mb-2 mt-3" role="alert">
+                <span class="block sm:inline"> @ViewBag.Erro.Data</span>
+            </div>
+        }
+        <a asp-controller="Cliente" asp-action="Index" class="btn btn-secondary mt-3">Voltar</a>    <button type="submit" class="btn btn-primary mt-3">Salvar</button>
+    </form>
+
+</body>
+</html>

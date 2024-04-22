@@ -1,0 +1,108 @@
+﻿@using ThomasGregTest.Application;
+
+@model IEnumerable<ClienteResponse>
+<div id="messageModal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="uppercase font-bold">Atenção <span id="fecharModal" onclick="fecharModal('#messageModal')" class="close">&times;</span></h1>
+            </div>
+            <main class="text-center p-4">
+                <p class="font-bold" id="lblMessage"></p>
+            </main>
+        </div>
+    </div>
+</div>
+
+<div id="delModal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="uppercase font-bold">Atenção <span id="fecharModal" onclick="fecharModal('#delModal')" class="close">&times;</span></h1>
+            </div>
+            <main class="text-center p-4">
+                <p class="font-bold">Deseja realmente excluir o cliente?</p>
+                <span id="lblRegistro"></span>
+            </main>
+            <div class="modal-footer">
+                <button onclick="handleDelSim()" class="btn btn-primary" type="button">Sim</button>
+                <button onclick="handleDelNao()" class="btn btn-danger" type="button">Não</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-4">
+    <h2 class="fw-bold">Clientes</h2>
+    <hr />
+    <a asp-controller="Cliente" asp-action="Create" class="btn btn-primary mb-3">Adicionar Cliente</a>
+
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Logotipo</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Email</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cliente in Model)
+            {
+                <tr>
+                    <td>
+                        <img src='@($"data:image/png;base64,{cliente.Logotipo}")' width="80" height="100" class="img-fluid" />
+                    </td>
+                    <td>@cliente.Nome</td>
+                    <td>@cliente.Email</td>
+                    <td>
+                        <a asp-controller="Cliente" asp-action="Details" asp-route-id="@cliente.Id" class="btn btn-info">Detalhes</a>
+                        <a asp-controller="Cliente" asp-action="Edit" asp-route-id="@cliente.Id" class="btn btn-warning">Editar</a>
+                        <a title='Excluir' onclick='excluir(@cliente.Id,"@cliente.Nome")' class="btn btn-danger">Excluir</a>
+                       
+                    </td>
+                </tr>
+            }
+            @if (Model.Count() == 0)
+            {
+                <tr>
+                    <td colspan="4" class="text-center">
+                       Nenhum registro cadastrado.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script src="~/js/services/cliente.js"></script>
+
+<script>
+    let _id = 0;
+    const excluir = (id,nome) => {
+        _id = id;
+        $('#delModal #lblRegistro').html(nome);
+        $('#delModal').modal('show');
+    }
+
+    const handleDelSim = async () => {
+        $('#delModal').modal('hide');
+
+        try {
+            const resposta = await Cliente.deleteAxios(_id);
+            $('#messageModal').modal('show');
+            $('#messageModal #lblMessage').html(resposta.data.data);
+            setTimeout(() => $('#messageModal').modal('hide'), 5000);
+            dataForm = {};
+            window.location.reload();
+        } catch (error) {
+            console.error('Erro ao excluir:', error);
+            $('#messageModal').modal('show');
+            $('#messageModal #lblMessage').html('Erro ao excluir. Por favor, tente novamente.');
+            setTimeout(() => $('#messageModal').modal('hide'), 5000);
+        }
+    }
+
+    const handleDelNao = () => {
+        _id=0;
+        $('#delModal').modal('hide');
+    }
+</script>
